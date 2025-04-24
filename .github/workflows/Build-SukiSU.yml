@@ -55,16 +55,6 @@ on:
           - enable
           - disable
         default: enable
-      # LXC_SUPPORT:
-      #   description: "启用 LXC 容器支持"
-      #   required: true
-      #   type: boolean
-      #   default: false
-      # DOCKER_SUPPORT:
-      #   description: "启用 Docker 容器支持"
-      #   required: true
-      #   type: boolean
-      #   default: false
   push:
     branches:
       - main
