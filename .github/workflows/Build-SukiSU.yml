@@ -65,6 +65,12 @@ on:
         required: true
         type: boolean
         default: true
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
