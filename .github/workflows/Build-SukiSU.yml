@@ -55,16 +55,16 @@ on:
           - enable
           - disable
         default: enable
-      LXC_SUPPORT:
-        description: "启用 LXC 容器支持"
-        required: true
-        type: boolean
-        default: false
-      DOCKER_SUPPORT:
-        description: "启用 Docker 容器支持"
-        required: true
-        type: boolean
-        default: false
+      # LXC_SUPPORT:
+      #   description: "启用 LXC 容器支持"
+      #   required: true
+      #   type: boolean
+      #   default: false
+      # DOCKER_SUPPORT:
+      #   description: "启用 Docker 容器支持"
+      #   required: true
+      #   type: boolean
+      #   default: false
   push:
     branches:
       - main
@@ -224,45 +224,45 @@ jobs:
           echo "CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS_OPEN_REDIRECT=y" >> ./common/arch/arm64/configs/gki_defconfig
           
-          # LXC 容器支持
-          if [[ "${{ github.event.inputs.LXC_SUPPORT }}" == 'true' ]]; then
-            echo "CONFIG_CGROUP_DEVICE=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_CGROUPS=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_NAMESPACES=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_USER_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_IPC_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_UTS_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_PID_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_NET_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_DEVPTS_MULTIPLE_INSTANCES=y" >> ./common/arch/arm64/configs/gki_defconfig
-          fi
+          # # LXC 容器支持
+          # if [[ "${{ github.event.inputs.LXC_SUPPORT }}" == 'true' ]]; then
+          #   echo "CONFIG_CGROUP_DEVICE=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_CGROUPS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_NAMESPACES=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_USER_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_IPC_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_UTS_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_PID_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_NET_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_DEVPTS_MULTIPLE_INSTANCES=y" >> ./common/arch/arm64/configs/gki_defconfig
+          # fi
 
-          # Docker 容器支持
-          if [[ "${{ github.event.inputs.DOCKER_SUPPORT }}" == 'true' ]]; then
-            # 基础命名空间支持（如果LXC没启用但Docker启用时需要）
-            if [[ "${{ github.event.inputs.LXC_SUPPORT }}" != 'true' ]]; then
-              echo "CONFIG_NAMESPACES=y" >> ./common/arch/arm64/configs/gki_defconfig
-              echo "CONFIG_USER_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-              echo "CONFIG_IPC_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-              echo "CONFIG_UTS_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-              echo "CONFIG_PID_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-              echo "CONFIG_NET_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-            fi
+          # # Docker 容器支持
+          # if [[ "${{ github.event.inputs.DOCKER_SUPPORT }}" == 'true' ]]; then
+          #   # 基础命名空间支持（如果LXC没启用但Docker启用时需要）
+          #   if [[ "${{ github.event.inputs.LXC_SUPPORT }}" != 'true' ]]; then
+          #     echo "CONFIG_NAMESPACES=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #     echo "CONFIG_USER_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #     echo "CONFIG_IPC_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #     echo "CONFIG_UTS_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #     echo "CONFIG_PID_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #     echo "CONFIG_NET_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   fi
             
-            # Docker 专用配置
-            echo "CONFIG_CGROUP_FREEZER=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_MEMCG=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_BLK_CGROUP=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_CFS_BANDWIDTH=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_RT_GROUP_SCHED=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_OVERLAY_FS=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_VETH=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_BRIDGE=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_NETFILTER=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_IP_NF_FILTER=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_IP_NF_NAT=y" >> ./common/arch/arm64/configs/gki_defconfig
-          fi
+          #   # Docker 专用配置
+          #   echo "CONFIG_CGROUP_FREEZER=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_MEMCG=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_BLK_CGROUP=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_CFS_BANDWIDTH=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_RT_GROUP_SCHED=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_OVERLAY_FS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_VETH=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_BRIDGE=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_NETFILTER=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_IP_NF_FILTER=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #   echo "CONFIG_IP_NF_NAT=y" >> ./common/arch/arm64/configs/gki_defconfig
+          # fi
 
           #if [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.10" ]; then
           #  echo "CONFIG_ZSMALLOC=y" >> ./common/arch/arm64/configs/gki_defconfig
