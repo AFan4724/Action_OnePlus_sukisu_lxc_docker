@@ -59,12 +59,12 @@ on:
         description: "启用 LXC 容器支持"
         required: true
         type: boolean
-        default: true
+        default: false
       DOCKER_SUPPORT:
         description: "启用 Docker 容器支持"
         required: true
         type: boolean
-        default: true
+        default: false
   push:
     branches:
       - main
@@ -74,6 +74,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[build]')
 
     steps:
       - name: Maximize build space
